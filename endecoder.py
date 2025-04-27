@@ -1,4 +1,8 @@
 import argparse
+from algorithm import vigenere, transposition, affine, autokey
+
+domain = 26
+string = "abcdefghijklmnopqrstuvwxyz"
 
 parser = argparse.ArgumentParser(description="This is the symmetric encryption and decryption system where you can encrypt or decrypt the text or file's content.")
 
@@ -10,6 +14,18 @@ parser.add_argument("-o","--operation", help="Choose the operation encrypt or de
 
 args = parser.parse_args()
 
+if args.algorithm == "vigenere":
+    pass
+elif args.algorithm == "transposition":
+    pass
+elif args.algorithm == "affine":
+    pass
+elif args.algorithm == "autokey":
+    args.message = args.message.lower()
+    if args.operation == "encrypt":
+        autokey.encryption(args.message, args.key, domain, string)
+    elif args.operation == "decrypt":
+        autokey.decryption(args.message, args.key, domain, string) 
+else:
+    print("Choose the right algorithm.")
 
-
-print(args)
