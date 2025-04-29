@@ -18,7 +18,11 @@ def main():
     if args.algorithm == "vigenere":
         pass
     elif args.algorithm == "transposition":
-        pass
+        args.message = args.message.lower()
+        if args.operation == "encrypt":
+            transposition.encryption(args.key, args.message)
+        elif args.operation == "decrypt":
+            transposition.decryption(args.key, args.message)
     elif args.algorithm == "affine":
         pass
     elif args.algorithm == "autokey":
