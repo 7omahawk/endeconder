@@ -81,7 +81,7 @@ def main():
                 autokey.decryption(args.message, args.key, domain, string) 
         except ValueError:
             print("Invalid input! Please enter the integer value.")      
-            
+
     else:
         print("Type in terminal: 'python endecoder.py --help'.")
 
@@ -94,7 +94,5 @@ if __name__ == '__main__':
     
     
 """have to solve several problem
-   1. try except error handling for string and integer
-   2. text file input and out adding problem
-   3. handle the prime number in affine cipher
-   4. proper comment out every where"""
+   1. text file input and out adding problem
+   2. proper comment out every where"""
