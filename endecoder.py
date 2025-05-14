@@ -4,6 +4,16 @@ from algorithm import vigenere, transposition, affine, autokey
 domain = 26
 string = "abcdefghijklmnopqrstuvwxyz"
 
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description="This is the symmetric encryption and decryption system where you can encrypt or decrypt the text or file's content.")
 
@@ -16,44 +26,75 @@ def main():
 
     args = parser.parse_args()
 
+    
     if args.algorithm == "vigenere":
-        args.message = args.message.lower()
-        
-        if args.operation == "encrypt":
-            vigenere.encryption(args.message, args.key, domain, string)
-        elif args.operation == "decrypt":
-            vigenere.decryption(args.message, args.key, domain, string)
+        try:
+            if args.key.isdigit():
+                raise ValueError("Integer input is not allowed!")
+            else:
+                args.message = args.message.lower()
+
+                if args.operation == "encrypt":
+                    vigenere.encryption(args.message, args.key, domain, string)
+                elif args.operation == "decrypt":
+                    vigenere.decryption(args.message, args.key, domain, string)
+        except ValueError:
+            print("Invalid input! Please enter the string value.")
             
     elif args.algorithm == "transposition":
-        args.key = int(args.key)
-        args.message = args.message.lower()
-        
-        if args.operation == "encrypt":
-            transposition.encryption(args.key, args.message)
-        elif args.operation == "decrypt":
-            transposition.decryption(args.key, args.message)
-            
+        try:
+            args.key = int(args.key)
+            args.message = args.message.lower()
+
+            if args.operation == "encrypt":
+                transposition.encryption(args.key, args.message)
+            elif args.operation == "decrypt":
+                transposition.decryption(args.key, args.message)
+        except ValueError:
+            print("Invalid input! Please enter the integer value.")   
+         
     elif args.algorithm == "affine":
-        args.key =int(args.key)
-        args.key2 = int(args.key2)
-        args.message = args.message.lower()
+        try:
+            args.key =int(args.key)
+            args.key2 = int(args.key2)
+            args.message = args.message.lower()
         
-        if args.operation == "encrypt":
-            affine.encryption(args.message, args.key, args.key2, domain, string)
-        elif args.operation == "decrypt":
-            t1 = affine.multiplicativeInverse(args.key, domain)
-            affine.decryption(args.message, args.key, args.key2, t1, domain, string)
-            
+            if is_prime(args.key) and is_prime(args.key2):
+                if args.operation == "encrypt":
+                    affine.encryption(args.message, args.key, args.key2, domain, string)
+                elif args.operation == "decrypt":
+                    t1 = affine.multiplicativeInverse(args.key, domain)
+                    affine.decryption(args.message, args.key, args.key2, t1, domain, string)
+            else:
+                print("Invalid input! Please enter the prime number.")
+        except ValueError:
+            print("Invalid input! Please enter the prime number.")
+        
     elif args.algorithm == "autokey":
-        args.message = args.message.lower()
-        
-        if args.operation == "encrypt":
-            autokey.encryption(args.message, args.key, domain, string)
-        elif args.operation == "decrypt":
-            autokey.decryption(args.message, args.key, domain, string) 
+        try:
+            args.message = args.message.lower()
+            args.key = int(args.key)
+            
+            if args.operation == "encrypt":
+                autokey.encryption(args.message, args.key, domain, string)
+            elif args.operation == "decrypt":
+                autokey.decryption(args.message, args.key, domain, string) 
+        except ValueError:
+            print("Invalid input! Please enter the integer value.")      
             
     else:
         print("Type in terminal: 'python endecoder.py --help'.")
 
 if __name__ == '__main__':
     main()
+    
+    
+    
+    
+    
+    
+"""have to solve several problem
+   1. try except error handling for string and integer
+   2. text file input and out adding problem
+   3. handle the prime number in affine cipher
+   4. proper comment out every where"""
